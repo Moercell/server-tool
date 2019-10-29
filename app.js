@@ -45,11 +45,7 @@ setInterval(() => {
         geo = geoip.lookup(ipGroup[i]).ll;
         map.addMarker({"lon" : String(geo[1]), "lat" : String(geo[0]), color: "blue", char: "߉" })
     }
-    // check if there are many requests
-    if (ipGroup.every( (val, j, arr) => val === arr[0] )) {
-        geo = geoip.lookup(ipGroup[0]).ll;
-        map.addMarker({"lon" : String(geo[1]), "lat" : String(geo[0]), color: "white", char: "߉" })
-    }
+
 
     if (isOdd(time) ) {
         map.clearMarkers()
