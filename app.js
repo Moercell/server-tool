@@ -2,13 +2,18 @@ const blessed = require('blessed');
 const contrib = require('blessed-contrib');
 const readLastLines = require('read-last-lines');
 const geoip = require('geoip-lite');
+const si = require('systeminformation');
+const exec = require('child_process').exec;
 
-const screen = blessed.screen()
+const screen = blessed.screen({
+    smartCSR: true
+  });
 
 var newLog = "";
 var ip;
 var geo;
 var ipGroup = [];
+
 
 function isOdd(num) { return num % 2;}
 
@@ -27,34 +32,88 @@ function getlog(log) {
 }
 
 
+// check "screen" size 
 
 
-var grid = new contrib.grid({rows: 12, cols: 12, screen: screen})
+//update grid
+
+
+//place elements
+
+
+
+var grid = new contrib.grid({rows: 12, cols: 12, screen: screen});
 var map = grid.set(0, 0, 6, 12, contrib.map, {label: 'access log | apache'});
-var log = grid.set(5, 0, 1, 12,contrib.log, { fg: "green", selectedFg: "green", label: 'access Log'})
+var log = grid.set(5, 0, 1, 12, contrib.log, { fg: "green", selectedFg: "green", label: 'access Log'});
+var donut = grid.set(6, 0, 2, 6, contrib.donut, {
+	label: 'temp',
+	radius: 8,
+	arcWidth: 3,
+	remainColor: 'black',
+	yPadding: 2,
+	data: [
+      {percent: 10, label: 'cpu', color: 'green'},
+	]
+  });
+
+  // get keypress
+  screen.on('keypress', function(key) {
+
+    // exit
+    if (key == "q") {
+        process.exit();
+    }
+    if (key == "f") {
+        fan = exec("fanup", function(err, stdout, stderr) {
+            if (err) {
+              console.log(err)
+            }
+            console.log(stdout);
+          });
+          
+          fan.on('exit', function (code) {
+            // exit code is code
+          });
+    }
+  });
+
+
 
 
 let time = 0;
 setInterval(() => {
-    time ++
-
+    
+    time ++;
     readLastLines.read('/var/log/apache2/access.log', 1).then((lines) => getlog(lines));
-
     log.log(String(newLog));    
     for (let i = 0; i < ipGroup.length; i++) {
         geo = geoip.lookup(ipGroup[i]).ll;
-        map.addMarker({"lon" : String(geo[1]), "lat" : String(geo[0]), color: "blue", char: "߉" })
+        map.addMarker({"lon" : String(geo[1]), "lat" : String(geo[0]), color: "blue", char: "߉" });
     }
-
 
     if (isOdd(time) ) {
-        map.clearMarkers()
+        map.clearMarkers(); // make map marker blink
     }
 
+    // get system info
 
-    //var box = grid.set(6, 0, 3, 12, blessed.box, {label: 'debug box', content: String(logs)});
+    async function getCpu() {
+        let cpuTemp = await si.cpuTemperature();
+        var box = grid.set(6, 6, 3, 6, blessed.box, {label: 'debug box', content: String(cpuTemp)});
+        //temp
+        donut.setData([
+            {percent: cpuTemp, label: 'cpu','color': 'green'},
+            {percent: 43, label: 'test','color': 'blue'},
+        ]);
+    }
 
-    
+    getCpu();
+
+
+
+
+    //var box = grid.set(6, 6, 3, 6, blessed.box, {label: 'debug box', content: String(cpuTemp)});
+
     screen.render();
 }, 800);
 
