@@ -13,7 +13,8 @@ var newLog = "";
 var ip;
 var geo;
 var ipGroup = [];
-
+var oldLog;
+var oldIps = [];
 
 function isOdd(num) { return num % 2;}
 
@@ -23,7 +24,7 @@ function getlog(log) {
         newLog = log;
         ip = newLog.split(" ")[0];
         ipGroup.push(ip);
-        if (ipGroup.length > 10) {
+        if (ipGroup.length > 20) {
             ipGroup.shift();
         }
     }
@@ -31,6 +32,14 @@ function getlog(log) {
     //geo = geoip.lookup(ip).ll;
 }
 
+
+function oldLogs(log) {
+    oldLog = log.split("\n"); 
+    for (let i = 0; i < oldLog.length; i++) {
+        ipGroup.push(oldLog[i].split(" ")[0]);
+        
+    }
+}
 
 // check "screen" size 
 
@@ -77,18 +86,30 @@ var donut = grid.set(6, 0, 2, 6, contrib.donut, {
     }
   });
 
-
+readLastLines.read('/var/log/apache2/access.log', 15).then((lines) => oldLogs(lines));
 
 
 let time = 0;
 setInterval(() => {
-    
+
     time ++;
     readLastLines.read('/var/log/apache2/access.log', 1).then((lines) => getlog(lines));
     log.log(String(newLog));    
     for (let i = 0; i < ipGroup.length; i++) {
-        geo = geoip.lookup(ipGroup[i]).ll;
-        map.addMarker({"lon" : String(geo[1]), "lat" : String(geo[0]), color: "blue", char: "߉" });
+        try {
+            geo = geoip.lookup(ipGroup[i]).ll;
+        } catch (error) {
+            //console.log(error);
+        }
+        
+        let amount = 0;
+        for (let j = 0; j < ipGroup.length; j++) {
+            if (ipGroup[i] == ipGroup[j]) {
+                amount ++;
+            }
+        }
+
+        map.addMarker({"lon" : String(geo[1]), "lat" : String(geo[0]), color: "blue", char: String(amount) });
     }
 
     if (isOdd(time) ) {
