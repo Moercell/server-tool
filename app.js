@@ -20,7 +20,7 @@ function isOdd(num) { return num % 2;}
 
 function getlog(log) {
     //logs = log.split(/\r?\n/);
-    if (log != newLog) {
+    if (log !== newLog) {
         newLog = log;
         ip = newLog.split(" ")[0];
         ipGroup.push(ip);
@@ -122,8 +122,9 @@ setInterval(() => {
         let cpuTemp = await si.cpuTemperature();
         var box = grid.set(6, 6, 3, 6, blessed.box, {label: 'debug box', content: String(cpuTemp)});
         //temp
+        console.log(cpuTemp.main);
         donut.setData([
-            {percent: cpuTemp, label: 'cpu','color': 'green'},
+            {percent: cpuTemp.main, label: 'cpu','color': 'green'},
             {percent: 43, label: 'test','color': 'blue'},
         ]);
     }
