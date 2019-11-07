@@ -109,12 +109,12 @@ var donut = grid.set(6, 0, 2, 6, contrib.donut, {
             eLat ++;
             break
         case 'x':
-            sLat ++
-            sLon += 2
+            sLat ++;
+            sLon += 2;
             break
         case 'y':
-            sLat --
-            sLon -= 2
+            sLat --;
+            sLon -= 2;
             break
         case 'c':
             console.log('slon: ' + sLon, 'slat: ' + sLat);
@@ -151,7 +151,12 @@ setInterval(() => {
                 amount ++;
             }
         }
-        map.addMarker({"lon" : String(geo[1]), "lat" : String(geo[0]), color: "blue", char: String(amount) });
+        if (amount >= 6) {
+            map.addMarker({"lon" : String(geo[1]), "lat" : String(geo[0]), color: "red", char: String(amount) });
+        }
+        else{
+            map.addMarker({"lon" : String(geo[1]), "lat" : String(geo[0]), color: "blue", char: String(amount) });
+        }
     }
 
     if (isOdd(time) ) {
@@ -172,7 +177,7 @@ setInterval(() => {
     }
 
    // getCpu();
-
+    console.log('Terminal size: ' + process.stdout.columns + 'x' + process.stdout.rows);
     screen.render();
 }, 800);
 
