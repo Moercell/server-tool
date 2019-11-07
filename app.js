@@ -166,7 +166,7 @@ setInterval(() => {
     for (let i = 0; i < ipGroup.length; i++) {
         try {
             geo = geoip.lookup(ipGroup[i]).ll;
-            console.log(geoip.lookup(ipGroup[i]));
+            //console.log(geoip.lookup(ipGroup[i]));
         } catch (error) {
             //console.log(error);
         }
