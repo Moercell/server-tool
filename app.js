@@ -33,7 +33,7 @@ function getlog(log) {
         newLog = log;
         ip = newLog.split(" ")[0];
         ipGroup.push(ip);
-        if (ipGroup.length > 20) {
+        if (ipGroup.length > 30) {
             ipGroup.shift();
         }
     }
@@ -127,7 +127,7 @@ var donut = grid.set(6, 0, 2, 6, contrib.donut, {
     drawLog();
   });
 
-readLastLines.read('/var/log/apache2/access.log', 15).then((lines) => oldLogs(lines));
+readLastLines.read('/var/log/apache2/access.log', 25).then((lines) => oldLogs(lines));
 
 function isOdd(num) { return num % 2;}
 let time = 0;
