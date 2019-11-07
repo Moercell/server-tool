@@ -4,6 +4,8 @@ const readLastLines = require('read-last-lines');
 const geoip = require('geoip-lite');
 const si = require('systeminformation');
 const exec = require('child_process').exec;
+var spawn = require('child_process').spawn;
+
 
 const screen = blessed.screen({
     smartCSR: true
@@ -49,10 +51,13 @@ function oldLogs(log) {
 
 //place elements
 
-
+var sLat = 120;
+var sLon = 160;
+var eLat = 160;
+var eLon = 240; //234
 
 var grid = new contrib.grid({rows: 12, cols: 12, screen: screen});
-var map = grid.set(0, 0, 6, 12, contrib.map, {label: 'access log | apache'});
+
 var log = grid.set(5, 0, 1, 12, contrib.log, { fg: "green", selectedFg: "green", label: 'access Log'});
 var donut = grid.set(6, 0, 2, 6, contrib.donut, {
 	label: 'temp',
@@ -72,6 +77,61 @@ var donut = grid.set(6, 0, 2, 6, contrib.donut, {
     if (key == "q") {
         process.exit();
     }
+
+    // move map ?
+
+    //zoom
+    if (key == 'x') {
+        sLat ++
+        sLon ++
+    }
+    if (key == 'y') {
+        sLat --
+        sLon --
+    }
+    //move?
+    if (key == 'm') {
+        eLat ++
+        eLon ++
+    }
+    if (key == 'n') {
+        eLat --
+        eLon --
+    }
+    //lon 
+    if (key == 'a') {
+        sLat --;
+    }
+    if (key == 'd') {
+        sLat ++;
+    }
+    //lat
+    if (key == 'w') {
+        sLon ++;
+    }
+    if (key == 's') {
+        sLon --;
+    }
+        //lon 
+        if (key == 'j') {
+            eLat --;
+        }
+        if (key == 'l') {
+            eLat ++;
+        }
+        //lat
+        if (key == 'i') {
+            eLon ++;
+        }
+        if (key == 'k') {
+            eLon --;
+        }
+    //log
+    if (key == 'c') {
+      console.log('slon: ' + sLon, 'slat: ' + sLat);
+      console.log('elon: ' + eLon, 'elat: ' + eLat);  
+    }
+
     if (key == "f") {
         fan = exec("fanup", function(err, stdout, stderr) {
             if (err) {
@@ -91,7 +151,7 @@ readLastLines.read('/var/log/apache2/access.log', 15).then((lines) => oldLogs(li
 
 let time = 0;
 setInterval(() => {
-
+    var map = grid.set(0, 0, 6, 12, contrib.map, {label: 'access log | apache', startLon: sLon, startLat: sLat, endLat: eLat, endLon: eLon});
     time ++;
     readLastLines.read('/var/log/apache2/access.log', 1).then((lines) => getlog(lines));
     log.log(String(newLog));    
@@ -122,7 +182,7 @@ setInterval(() => {
         let cpuTemp = await si.cpuTemperature();
         var box = grid.set(6, 6, 3, 6, blessed.box, {label: 'debug box', content: String(cpuTemp)});
         //temp
-        console.log(cpuTemp.main);
+        //console.log(cpuTemp.main);
         donut.setData([
             {percent: cpuTemp.main, label: 'cpu','color': 'green'},
             {percent: 43, label: 'test','color': 'blue'},
@@ -132,7 +192,13 @@ setInterval(() => {
     getCpu();
 
 
+    
 
+    temp = spawn('cat', ['/sys/class/thermal/thermal_zone0/temp']);
+
+    temp.stdout.on('data', function(data) {
+        console.log('Result: ' + data/1000 + ' degrees Celcius');
+    });
 
     //var box = grid.set(6, 6, 3, 6, blessed.box, {label: 'debug box', content: String(cpuTemp)});
 
