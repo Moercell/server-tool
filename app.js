@@ -51,10 +51,10 @@ function oldLogs(log) {
 
 //place elements
 
-var sLat = 120;
-var sLon = 160;
-var eLat = 160;
-var eLon = 240; //234
+var sLat = 0;
+var sLon = 0;
+var eLat = 0;
+var eLon = 0;
 
 var grid = new contrib.grid({rows: 12, cols: 12, screen: screen});
 
@@ -79,6 +79,14 @@ var donut = grid.set(6, 0, 2, 6, contrib.donut, {
     }
 
     // move map ?
+
+    //europe
+    if (key == 'e') {
+        sLat = 118;
+        sLon = 159;
+        eLat = 161;
+        eLon = 241;
+    }
 
     //zoom
     if (key == 'x') {
@@ -158,6 +166,7 @@ setInterval(() => {
     for (let i = 0; i < ipGroup.length; i++) {
         try {
             geo = geoip.lookup(ipGroup[i]).ll;
+            console.log(geoip.lookup(ipGroup[i]));
         } catch (error) {
             //console.log(error);
         }
