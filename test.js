@@ -21,11 +21,17 @@ si.currentLoad(function(data) {
 })
 
 setInterval(() => {
-    si.getDynamicData(function(data) {
 
-        console.log(data.cpuTemperature);
-    
-    })
+    exec('sensors', (err, stdout, stderr) => {
+    if (err) {
+        console.log(err)
+        return;
+    }
+
+    // the *entire* stdout and stderr (buffered)
+    console.log(stdou));
+    //console.log(`stderr: ${stderr}`);
+    });
    
 
 }, 500);
