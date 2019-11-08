@@ -2,7 +2,7 @@ const blessed = require('blessed');
 const contrib = require('blessed-contrib');
 const readLastLines = require('read-last-lines');
 const geoip = require('geoip-lite');
-//const si = require('systeminformation');
+const si = require('systeminformation');
 
 
 
@@ -10,6 +10,8 @@ const screen = blessed.screen({
     smartCSR: true
   });
 
+const tWidth = process.stdout.columns;
+const tHeight = process.stdout.rows;
 
 var newLog = "";
 var ip;
@@ -19,7 +21,7 @@ var oldLog;
 var oldIps = [];
 var map;
 var log;
-
+var colors = [red, green, blue, cyan, magenta, yellow];
 
 var sLat = 0;
 var sLon = 0;
@@ -49,30 +51,44 @@ function oldLogs(log) {
 }
 
 
-function drawMap() {
-    map = grid.set(0, 0, 6, 12, contrib.map, {label: 'access log | apache', startLon: sLon, startLat: sLat, endLat: eLat, endLon: eLon});
+function drawMap(w, h, y, x) {
+    if (w === undefined) {
+        map = grid.set(0, 0, 6, 12, contrib.map, {label: 'access log | apache', startLon: sLon, startLat: sLat, endLat: eLat, endLon: eLon});
+    } else {
+        map = grid.set(y, x, h, w, contrib.map, {label: 'access log | apache', startLon: sLon, startLat: sLat, endLat: eLat, endLon: eLon});
+    }
     return map
 }
-function drawLog() {
-    log = grid.set(5, 0, 1, 12, contrib.log, { fg: "green", selectedFg: "green", label: 'access Log'});
+function drawLog(w, h, y, x) {
+    if (w === undefined) {
+        log = grid.set(5, 0, 2, 12, contrib.log, { fg: "green", selectedFg: "green", label: 'access Log'});
+    } else {
+        log = grid.set(y, x, h, w, contrib.log, { fg: "green", selectedFg: "green", label: 'access Log'});
+    }
     return log
 }
 
-var grid = new contrib.grid({rows: 12, cols: 12, screen: screen});
 
-drawMap();
-drawLog();
+// check for screen
+switch (tWidth, tHeight) {
+    case 48, 21:
+        var grid = new contrib.grid({rows: 9, cols: 12, screen: screen});
+        drawMap(12, 6, 0, 0);
+        drawLog(12, 2, 5, 0);
+        break;
+    case 160, 63:
+        var grid = new contrib.grid({rows: 9, cols: 12, screen: screen});
+        drawMap(12, 6, 0, 0);
+        drawLog(12, 2, 5, 0);
+        break;
 
-var donut = grid.set(6, 0, 2, 6, contrib.donut, {
-	label: 'temp',
-	radius: 8,
-	arcWidth: 3,
-	remainColor: 'black',
-	yPadding: 2,
-	data: [
-      {percent: 10, label: 'cpu', color: 'green'},
-	]
-  });
+    default:
+        var grid = new contrib.grid({rows: 12, cols: 12, screen: screen});
+        drawMap(12, 6, 0, 0);
+        drawLog(12, 2, 5, 0);
+        break;
+}
+
 
   // get keypress
   screen.on('keypress', function(key) {
@@ -163,21 +179,14 @@ setInterval(() => {
         map.clearMarkers(); // make map marker blink
     }
 
-    // get system info
+    si.currentLoad(function(data) {
+        for (let i = 0; i < data.cpus.length; i++) {
+            console.log(data.cpus[i].load)
+        }
+        
+    })
+    
 
-    async function getCpu() {
-        let cpuTemp = await si.cpuTemperature();
-        var box = grid.set(6, 6, 3, 6, blessed.box, {label: 'debug box', content: String(cpuTemp)});
-        //temp
-        //console.log(cpuTemp.main);
-        donut.setData([
-            {percent: cpuTemp.main, label: 'cpu','color': 'green'},
-            {percent: 43, label: 'test','color': 'blue'},
-        ]);
-    }
-
-   // getCpu();
-    console.log('Terminal size: ' + process.stdout.columns + 'x' + process.stdout.rows);
     screen.render();
 }, 800);
 

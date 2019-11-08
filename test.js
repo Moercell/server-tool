@@ -6,12 +6,23 @@ const si = require('systeminformation');
 const exec = require('child_process').exec;
 
 
+// uptime
+si.getDynamicData(function(data) {
+    uptime = data.time.uptime
+    days = Math.floor(((uptime / 60) / 60)/ 24);
+    hours = Math.floor((uptime / 60 / 60) - (days * 24));
+    minutes =  Math.floor((uptime / 60) - (days * 24 * 60 + hours * 60));
+    console.log(days, 'days', hours, 'hours', minutes, 'minutes');
 
+})
 
-async function getCpu() {
-    let cpuTemp = await si.cpuTemperature();
-    //var box = grid.set(6, 6, 3, 6, blessed.box, {label: 'debug box', content: String(cpuTemp)});
-    //temp
-}
+// cpu speed
+si.currentLoad(function(data) {
+    console.log(data.cpus[1].load);
+})
 
-console.log(getCpu());
+setInterval(() => {
+    si.getDynamicData(function(data) {
+        console.log(data.cpuTemperature.main);
+    })
+}, 500);
