@@ -122,8 +122,8 @@ switch (tWidth, tHeight) {
             { 
             xLabelPadding: 0
             , xPadding: -5
-            , showLegend: true
-            , numYLabels: 7
+            , showLegend: false
+            , numYLabels: 4
             , maxY: 100
             , wholeNumbersOnly: false //true=do not show fraction in y axis
             , label: 'cpu temp'});
@@ -131,8 +131,8 @@ switch (tWidth, tHeight) {
             { 
             xLabelPadding: 0
             , xPadding: -5
-            , showLegend: true
-            , numYLabels: 7
+            , showLegend: false
+            , numYLabels: 4
             , maxY: 100
             , wholeNumbersOnly: false //true=do not show fraction in y axis
             , label: 'cpu speed'});
