@@ -229,23 +229,23 @@ setInterval(() => {
         temp = stdout.split("\n");
         //console.log(temp[1]);
         for (let i = 0; i < temp.length; i++) {
-           if (i == 2 || i == 3 || i == 4 || i == 5 ) {
+           if (i == 2 ) { //|| i == 3 || i == 4 || i == 5 
                 let temp2 = temp[i].split('+');
                 let temp3 = temp2[1].split('°');
-                let sum = parseInt(temp3).reduce((previous, current) => current += previous);
-                let avg = sum / temp3.length;
+                let temp4 = parseInt(temp3);
+                //let sum = temp4.reduce((previous, current) => current += previous);
+                //let avg = sum / temp4.length;
                 cpuData[0].y.shift();
-                cpuData[0].y.push(avg);
-                console.log(avg);
-
+                cpuData[0].y.push(temp4);
            }
-           if (i == 14 || i == 15 || i == 16 || i == 17) {
+           if (i == 14 ) { //|| i == 15 || i == 16 || i == 17
                var temp2 = temp[i].split('+');
                var temp3 = temp2[1].split('°');
-               let sum = parseInt(temp3).reduce((previous, current) => current += previous);
-               let avg = sum / temp3.length;
+               let temp4 = parseInt(temp3);
+               //let sum = temp3.reduce((previous, current) => current += previous);
+               //let avg = sum / temp3.length;
                cpuData[1].y.shift();
-               cpuData[1].y.push(avg);
+               cpuData[1].y.push(temp4);
                
            }
         }
