@@ -72,7 +72,7 @@ function drawLog(w, h, y, x) {
 var cpuData = [
     {
         title: 'cpu0',
-        x: [], //'t0', 't1', 't2', 't3', 't4', 't5', 't6', 't7'
+        x: [0, 0, 0, 0, 0, 0, 0], //'t0', 't1', 't2', 't3', 't4', 't5', 't6', 't7'
         y: [0, 0, 0, 0, 0, 0, 0],
         style: { line: colors[3] }
     },
