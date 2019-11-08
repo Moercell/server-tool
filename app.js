@@ -247,11 +247,9 @@ setInterval(() => {
                cpuData[1].y.shift();
            }
         }
-        console.log(cpu1);
-        console.log(cpu0);
         //console.log(`stderr: ${stderr}`);
     });
-    
+    line.setData(cpuData);
 
     screen.render();
 }, 800);
