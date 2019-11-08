@@ -29,7 +29,7 @@ setInterval(() => {
     }
 
     // the *entire* stdout and stderr (buffered)
-    console.log(stdou));
+    console.log(stdou);
     //console.log(`stderr: ${stderr}`);
     });
    
