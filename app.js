@@ -206,12 +206,12 @@ setInterval(() => {
         for (let i = 0; i < temp.length; i++) {
            if (i == 2 || i == 3 || i == 4 || i == 5 ) {
                var temp2 = temp[i].split('+');
-               vat temp3 = temp2[1].split('(');
+               var temp3 = temp2[1].split('(');
                cpu1.push(temp3[0]);
            }
            if (i == 14 || i == 15 || i == 16 || i == 17) {
                var temp2 = temp[i].split('+');
-               vat temp3 = temp2[1].split('(');
+               var temp3 = temp2[1].split('(');
                cpu0.push(temp3[0]);
            }
         }
