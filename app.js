@@ -123,6 +123,8 @@ switch (tWidth, tHeight) {
             xLabelPadding: 0
             , xPadding: -5
             , showLegend: true
+            , numYLabels: 7
+            , maxY: 100
             , wholeNumbersOnly: false //true=do not show fraction in y axis
             , label: 'cpu temp'});
         var line2 = grid.set(6, 6, 3, 6, contrib.line,
@@ -130,6 +132,8 @@ switch (tWidth, tHeight) {
             xLabelPadding: 0
             , xPadding: -5
             , showLegend: true
+            , numYLabels: 7
+            , maxY: 100
             , wholeNumbersOnly: false //true=do not show fraction in y axis
             , label: 'cpu speed'});
         break;
