@@ -108,13 +108,20 @@ switch (tWidth, tHeight) {
         var grid = new contrib.grid({rows: 12, cols: 12, screen: screen});
         drawMap(12, 5, 0, 0);
         drawLog(12, 1, 5, 0);
-        var line = grid.set(7, 0, 3, 6, contrib.line,
+        var line = grid.set(6, 0, 3, 6, contrib.line,
             { 
             xLabelPadding: 0
             , xPadding: 0
             , showLegend: false
             , wholeNumbersOnly: false //true=do not show fraction in y axis
             , label: 'cpu temp'});
+        var line2 = grid.set(6, 6, 3, 6, contrib.line,
+            { 
+            xLabelPadding: 0
+            , xPadding: 0
+            , showLegend: false
+            , wholeNumbersOnly: false //true=do not show fraction in y axis
+            , label: 'cpu speed'});
         break;
 }
 
