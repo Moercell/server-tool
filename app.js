@@ -246,11 +246,13 @@ setInterval(() => {
             console.log(err)
             return;}
         temp = stdout.split("\n");
-        for (let i = 0; i < temp.length; i++) {
+        let tempLog = [];
+        for (let i = 0; i < temp.length; i++) { 
            if (i == 2 ) {
                 let temp2 = temp[i].split('+');
                 let temp3 = temp2[1].split('°');
                 let temp4 = parseInt(temp3);
+                tempLog.push(temp4);
                 cpuData[0].y.shift();
                 cpuData[0].y.push(temp4);
            }
@@ -258,11 +260,15 @@ setInterval(() => {
                var temp2 = temp[i].split('+');
                var temp3 = temp2[1].split('°');
                let temp4 = parseInt(temp3);
+               tempLog.push(temp4);
                cpuData[1].y.shift();
                cpuData[1].y.push(temp4);
-               var box = grid.set(0, 8, 1, 6, blessed.box, {content: 'cpu0: ' + temp4})
+               
            }
+          
         }
+        var box = grid.set(8, 0, 1, 6, blessed.box, {content: 'cpu0: ' + tempLog[0] + '°C | cpu1: ' + tempLog[1] + '°C'})
+
     });
     line.setData(cpuData);
     line2.setData(loadData);
