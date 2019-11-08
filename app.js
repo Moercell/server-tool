@@ -75,18 +75,6 @@ function drawLog(w, h, y, x) {
     return log
 }
 
-
-var line = grid.set(7, 0, 3, 12, contrib.line,
-    { style:
-      { line: "yellow"
-      , text: "green"
-      , baseline: "black"}
-    , xLabelPadding: 3
-    , xPadding: 5
-    , showLegend: false
-    , wholeNumbersOnly: true //true=do not show fraction in y axis
-    , label: 'cpu temp'});
-
 var cpuData = [
     {
         title: 'cpu0',
@@ -120,6 +108,13 @@ switch (tWidth, tHeight) {
         var grid = new contrib.grid({rows: 12, cols: 12, screen: screen});
         drawMap(12, 5, 0, 0);
         drawLog(12, 1, 5, 0);
+        var line = grid.set(7, 0, 3, 12, contrib.line,
+            { 
+            xLabelPadding: 3
+            , xPadding: 5
+            , showLegend: false
+            , wholeNumbersOnly: true //true=do not show fraction in y axis
+            , label: 'cpu temp'});
         break;
 }
 
