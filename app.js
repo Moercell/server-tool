@@ -232,7 +232,7 @@ setInterval(() => {
            if (i == 2 || i == 3 || i == 4 || i == 5 ) {
                 let temp2 = temp[i].split('+');
                 let temp3 = temp2[1].split('°');
-                let sum = temp3.reduce((previous, current) => current += previous);
+                let sum = parseInt(temp3).reduce((previous, current) => current += previous);
                 let avg = sum / temp3.length;
                 cpuData[0].y.shift();
                 cpuData[0].y.push(avg);
@@ -242,7 +242,7 @@ setInterval(() => {
            if (i == 14 || i == 15 || i == 16 || i == 17) {
                var temp2 = temp[i].split('+');
                var temp3 = temp2[1].split('°');
-               let sum = temp3.reduce((previous, current) => current += previous);
+               let sum = parseInt(temp3).reduce((previous, current) => current += previous);
                let avg = sum / temp3.length;
                cpuData[1].y.shift();
                cpuData[1].y.push(avg);
