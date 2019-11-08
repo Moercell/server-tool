@@ -195,6 +195,8 @@ setInterval(() => {
 
     // get cpu temp
     exec('sensors', (err, stdout, stderr) => { // istats for mac | sensors for ubuntu
+        var cpu0;
+        var cpu1;
         if (err) {
             console.log(err)
             return;
@@ -205,12 +207,19 @@ setInterval(() => {
            if (temp[i].length <= 0) {
                temp.splice(i, 1);
            }
-           console.log(temp[2]);
-           console.log(temp[3]);
-           console.log(temp[4]);
-           console.log(temp[5]);
+           if (i == 2 || i == 3 || i == 4 || i == 5 ) {
+               temp[i].split('+');
+               temp[i][1].split('(');
+               cpu1.push(temp[i][1][0]);
+           }
+           if (i == 12 || i == 13 || i == 14 || i == 15) {
+                temp[i].split('+');
+                temp[i][1].split('(');
+                cpu0.push(temp[i][1][0]);
+           }
         }
-        
+        console.log(cpu1);
+        console.log(cpu0);
         //console.log(`stderr: ${stderr}`);
     });
     
