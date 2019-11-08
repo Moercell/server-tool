@@ -73,16 +73,32 @@ var cpuData = [
     {
         title: 'cpu0',
         x: [0, 0, 0, 0, 0, 0, 0], //'t0', 't1', 't2', 't3', 't4', 't5', 't6', 't7'
-        y: [0, 0, 0, 0, 0, 0, 0],
+        y: [100, 0, 0, 0, 0, 0, 0],
         style: { line: colors[3] }
     },
     {
         title: 'cpu1',
-        x: [],
-        y: [0, 0, 0, 0, 0, 0, 0],
+        x: [0, 0, 0, 0, 0, 0, 0],
+        y: [100, 0, 0, 0, 0, 0, 0],
         style: { line: colors[1] }
     }
 ];
+
+var loadData = [
+    {
+        title: 'core00',
+        x: [0, 0, 0, 0, 0, 0, 0],
+        y: [100, 0, 0, 0, 0, 0, 0],
+        style: { line: colors[1] }
+    },
+    {
+        title: 'core01',
+        x: [0, 0, 0, 0, 0, 0, 0],
+        y: [100, 0, 0, 0, 0, 0, 0],
+        style: { line: colors[1] }
+    }
+    
+]
 
 // check for screen
 // TODO: make responsive works
@@ -106,14 +122,14 @@ switch (tWidth, tHeight) {
             { 
             xLabelPadding: 0
             , xPadding: -5
-            , showLegend: false
+            , showLegend: true
             , wholeNumbersOnly: false //true=do not show fraction in y axis
             , label: 'cpu temp'});
         var line2 = grid.set(6, 6, 3, 6, contrib.line,
             { 
             xLabelPadding: 0
             , xPadding: -5
-            , showLegend: false
+            , showLegend: true
             , wholeNumbersOnly: false //true=do not show fraction in y axis
             , label: 'cpu speed'});
         break;
@@ -216,44 +232,35 @@ setInterval(() => {
     // si.currentLoad(function(data) {
     //     for (let i = 0; i < data.cpus.length; i++) {
     //         //console.log(data.cpus[i].load)
-    //     }
+    //   }
         
     // })
 
     // get cpu temp
     exec('sensors', (err, stdout, stderr) => { // istats for mac | sensors for ubuntu
-
         if (err) {
             console.log(err)
-            return;
-        }
+            return;}
         temp = stdout.split("\n");
-        //console.log(temp[1]);
         for (let i = 0; i < temp.length; i++) {
-           if (i == 2 ) { //|| i == 3 || i == 4 || i == 5 
+           if (i == 2 ) {
                 let temp2 = temp[i].split('+');
                 let temp3 = temp2[1].split('°');
                 let temp4 = parseInt(temp3);
-                //let sum = temp4.reduce((previous, current) => current += previous);
-                //let avg = sum / temp4.length;
                 cpuData[0].y.shift();
                 cpuData[0].y.push(temp4);
            }
-           if (i == 14 ) { //|| i == 15 || i == 16 || i == 17
+           if (i == 14 ) {
                var temp2 = temp[i].split('+');
                var temp3 = temp2[1].split('°');
                let temp4 = parseInt(temp3);
-               //let sum = temp3.reduce((previous, current) => current += previous);
-               //let avg = sum / temp3.length;
                cpuData[1].y.shift();
                cpuData[1].y.push(temp4);
-               
            }
         }
-        //console.log(`stderr: ${stderr}`);
     });
     line.setData(cpuData);
-
+    line2.setData(loadData);
     screen.render();
 }, 800);
 
