@@ -4,7 +4,6 @@ const readLastLines = require('read-last-lines');
 const geoip = require('geoip-lite');
 const si = require('systeminformation');
 const exec = require('child_process').exec;
-var spawn = require('child_process').spawn;
 
 // uptime
 si.getDynamicData(function(data) {
@@ -22,14 +21,11 @@ si.currentLoad(function(data) {
 })
 
 setInterval(() => {
+    si.getDynamicData(function(data) {
 
-
+        console.log(data.cpuTemperature);
     
-
-    temp = spawn('cat', ['/sys/class/thermal/thermal_zone0/temp']);
-
-    temp.stdout.on('data', function(data) {
-            console.log('Result: ' + data/1000 + ' degrees Celcius');
-    });
+    })
+   
 
 }, 500);
