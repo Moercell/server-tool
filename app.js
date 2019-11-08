@@ -195,8 +195,8 @@ setInterval(() => {
 
     // get cpu temp
     exec('sensors', (err, stdout, stderr) => { // istats for mac | sensors for ubuntu
-        var cpu0;
-        var cpu1;
+        var cpu0 = [];
+        var cpu1 = [];
         if (err) {
             console.log(err)
             return;
