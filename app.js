@@ -30,12 +30,6 @@ var sLon = 0;
 var eLat = 180;
 var eLon = 360;
 
-var cpu0 = {
-    title: 'cpu0',
-    x: ['t0', 't1', 't2', 't3', 't4', 't5', 't6', 't7'],
-    y: [0, 0, 0, 0, 0, 0, 0]
-};
-var cpu1 = {};
 
 function getlog(log) {
     if (log !== newLog) {
@@ -78,13 +72,13 @@ function drawLog(w, h, y, x) {
 var cpuData = [
     {
         title: 'cpu0',
-        x: ['t0', 't1', 't2', 't3', 't4', 't5', 't6', 't7'],
+        x: [], //'t0', 't1', 't2', 't3', 't4', 't5', 't6', 't7'
         y: [0, 0, 0, 0, 0, 0, 0],
         style: { line: colors[3] }
     },
     {
         title: 'cpu1',
-        x: ['t0', 't1', 't2', 't3', 't4', 't5', 't6', 't7'],
+        x: [],
         y: [0, 0, 0, 0, 0, 0, 0],
         style: { line: colors[1] }
     }
