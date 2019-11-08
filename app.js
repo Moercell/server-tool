@@ -21,7 +21,7 @@ var oldLog;
 var oldIps = [];
 var map;
 var log;
-var colors = [red, green, blue, cyan, magenta, yellow];
+var colors = ['red', 'green', 'blue', 'cyan', 'magenta', 'yellow'];
 
 var sLat = 0;
 var sLon = 0;
@@ -179,12 +179,12 @@ setInterval(() => {
         map.clearMarkers(); // make map marker blink
     }
 
-    si.currentLoad(function(data) {
-        for (let i = 0; i < data.cpus.length; i++) {
-            console.log(data.cpus[i].load)
-        }
+    // si.currentLoad(function(data) {
+    //     for (let i = 0; i < data.cpus.length; i++) {
+    //         //console.log(data.cpus[i].load)
+    //     }
         
-    })
+    // })
     
 
     screen.render();

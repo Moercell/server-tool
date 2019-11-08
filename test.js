@@ -22,7 +22,7 @@ si.currentLoad(function(data) {
 })
 
 setInterval(() => {
-    si.getDynamicData(function(data) {
-        console.log(data.cpuTemperature.main);
+    si.networkStats(function(data) {
+        console.log(data[0].operstate);
     })
 }, 500);
