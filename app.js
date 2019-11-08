@@ -30,7 +30,12 @@ var sLon = 0;
 var eLat = 180;
 var eLon = 360;
 
-
+var cpu0 = {
+    title: 'cpu0',
+    x: ['t0', 't1', 't2', 't3', 't4', 't5', 't6', 't7'],
+    y: [0, 0, 0, 0, 0, 0, 0]
+};
+var cpu1 = {};
 
 function getlog(log) {
     if (log !== newLog) {
@@ -70,6 +75,32 @@ function drawLog(w, h, y, x) {
     return log
 }
 
+
+var line = grid.set(7, 0, 3, 12, contrib.line,
+    { style:
+      { line: "yellow"
+      , text: "green"
+      , baseline: "black"}
+    , xLabelPadding: 3
+    , xPadding: 5
+    , showLegend: false
+    , wholeNumbersOnly: true //true=do not show fraction in y axis
+    , label: 'cpu temp'});
+
+var cpuData = [
+    {
+        title: 'cpu0',
+        x: ['t0', 't1', 't2', 't3', 't4', 't5', 't6', 't7'],
+        y: [0, 0, 0, 0, 0, 0, 0],
+        style: { line: colors[3] }
+    },
+    {
+        title: 'cpu1',
+        x: ['t0', 't1', 't2', 't3', 't4', 't5', 't6', 't7'],
+        y: [0, 0, 0, 0, 0, 0, 0],
+        style: { line: colors[1] }
+    }
+];
 
 // check for screen
 // TODO: make responsive works
@@ -195,8 +226,7 @@ setInterval(() => {
 
     // get cpu temp
     exec('sensors', (err, stdout, stderr) => { // istats for mac | sensors for ubuntu
-        var cpu0 = [];
-        var cpu1 = [];
+
         if (err) {
             console.log(err)
             return;
@@ -205,14 +235,21 @@ setInterval(() => {
         //console.log(temp[1]);
         for (let i = 0; i < temp.length; i++) {
            if (i == 2 || i == 3 || i == 4 || i == 5 ) {
-               var temp2 = temp[i].split('+');
-               var temp3 = temp2[1].split('(');
-               cpu1.push(temp3[0]);
+                let temp2 = temp[i].split('+');
+                let temp3 = temp2[1].split('°');
+                let sum = temp3.reduce((previous, current) => current += previous);
+                let avg = sum / temp3.length;
+                cpuData[0].y.push(avg);
+                cpuData[0].y.shift();
+
            }
            if (i == 14 || i == 15 || i == 16 || i == 17) {
                var temp2 = temp[i].split('+');
-               var temp3 = temp2[1].split('(');
-               cpu0.push(temp3[0]);
+               var temp3 = temp2[1].split('°');
+               let sum = temp3.reduce((previous, current) => current += previous);
+               let avg = sum / temp3.length;
+               cpuData[1].y.push(avg);
+               cpuData[1].y.shift();
            }
         }
         console.log(cpu1);
