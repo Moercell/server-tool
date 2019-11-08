@@ -267,7 +267,7 @@ setInterval(() => {
            }
           
         }
-        var box = grid.set(8, 0, 1, 6, blessed.box, {content: 'cpu0: ' + tempLog[0] + '°C | cpu1: ' + tempLog[1] + '°C'})
+        var box = grid.set(8, 0, 1, 6, blessed.text, {content: 'cpu0: ' + tempLog[0] + '°C | cpu1: ' + tempLog[1] + '°C', align: 'center'})
 
     });
     line.setData(cpuData);
