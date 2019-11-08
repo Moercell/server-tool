@@ -204,18 +204,15 @@ setInterval(() => {
         temp = stdout.split("\n");
         //console.log(temp[1]);
         for (let i = 0; i < temp.length; i++) {
-           if (temp[i].length <= 0) {
-               temp.splice(i, 1);
-           }
            if (i == 2 || i == 3 || i == 4 || i == 5 ) {
-               temp[i].split('+');
-               temp[i][1].split('(');
-               cpu1.push(temp[i][1][0]);
+               var temp2 = temp[i].split('+');
+               vat temp3 = temp2[1].split('(');
+               cpu1.push(temp3[0]);
            }
-           if (i == 12 || i == 13 || i == 14 || i == 15) {
-                temp[i].split('+');
-                temp[i][1].split('(');
-                cpu0.push(temp[i][1][0]);
+           if (i == 14 || i == 15 || i == 16 || i == 17) {
+               var temp2 = temp[i].split('+');
+               vat temp3 = temp2[1].split('(');
+               cpu0.push(temp3[0]);
            }
         }
         console.log(cpu1);
