@@ -260,6 +260,7 @@ setInterval(() => {
                let temp4 = parseInt(temp3);
                cpuData[1].y.shift();
                cpuData[1].y.push(temp4);
+               var box = grid.set(0, 8, 1, 6, blessed.box, {content: 'cpu0: ' + temp4})
            }
         }
     });
