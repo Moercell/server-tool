@@ -108,12 +108,12 @@ switch (tWidth, tHeight) {
         var grid = new contrib.grid({rows: 12, cols: 12, screen: screen});
         drawMap(12, 5, 0, 0);
         drawLog(12, 1, 5, 0);
-        var line = grid.set(7, 0, 3, 12, contrib.line,
+        var line = grid.set(7, 0, 3, 6, contrib.line,
             { 
-            xLabelPadding: 3
-            , xPadding: 5
+            xLabelPadding: 0
+            , xPadding: 0
             , showLegend: false
-            , wholeNumbersOnly: true //true=do not show fraction in y axis
+            , wholeNumbersOnly: false //true=do not show fraction in y axis
             , label: 'cpu temp'});
         break;
 }
@@ -234,8 +234,9 @@ setInterval(() => {
                 let temp3 = temp2[1].split('°');
                 let sum = temp3.reduce((previous, current) => current += previous);
                 let avg = sum / temp3.length;
-                cpuData[0].y.push(avg);
                 cpuData[0].y.shift();
+                cpuData[0].y.push(avg);
+                console.log(avg);
 
            }
            if (i == 14 || i == 15 || i == 16 || i == 17) {
@@ -243,8 +244,9 @@ setInterval(() => {
                var temp3 = temp2[1].split('°');
                let sum = temp3.reduce((previous, current) => current += previous);
                let avg = sum / temp3.length;
-               cpuData[1].y.push(avg);
                cpuData[1].y.shift();
+               cpuData[1].y.push(avg);
+               
            }
         }
         //console.log(`stderr: ${stderr}`);
