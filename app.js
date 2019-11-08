@@ -3,7 +3,7 @@ const contrib = require('blessed-contrib');
 const readLastLines = require('read-last-lines');
 const geoip = require('geoip-lite');
 const si = require('systeminformation');
-
+const exec = require('child_process').exec;
 
 
 const screen = blessed.screen({
@@ -14,6 +14,7 @@ const tWidth = process.stdout.columns;
 const tHeight = process.stdout.rows;
 
 var newLog = "";
+var newLog2 = "";
 var ip;
 var geo;
 var ipGroup = [];
@@ -21,6 +22,7 @@ var oldLog;
 var oldIps = [];
 var map;
 var log;
+var temp;
 var colors = ['red', 'green', 'blue', 'cyan', 'magenta', 'yellow'];
 
 var sLat = 0;
@@ -53,7 +55,7 @@ function oldLogs(log) {
 
 function drawMap(w, h, y, x) {
     if (w === undefined) {
-        map = grid.set(0, 0, 6, 12, contrib.map, {label: 'access log | apache', startLon: sLon, startLat: sLat, endLat: eLat, endLon: eLon});
+        map = grid.set(0, 0, 5, 12, contrib.map, {label: 'access log | apache', startLon: sLon, startLat: sLat, endLat: eLat, endLon: eLon});
     } else {
         map = grid.set(y, x, h, w, contrib.map, {label: 'access log | apache', startLon: sLon, startLat: sLat, endLat: eLat, endLon: eLon});
     }
@@ -61,7 +63,7 @@ function drawMap(w, h, y, x) {
 }
 function drawLog(w, h, y, x) {
     if (w === undefined) {
-        log = grid.set(5, 0, 2, 12, contrib.log, { fg: "green", selectedFg: "green", label: 'access Log'});
+        log = grid.set(6, 0, 1, 12, contrib.log, { fg: "green", selectedFg: "green", label: 'access Log'});
     } else {
         log = grid.set(y, x, h, w, contrib.log, { fg: "green", selectedFg: "green", label: 'access Log'});
     }
@@ -70,22 +72,23 @@ function drawLog(w, h, y, x) {
 
 
 // check for screen
+// TODO: make responsive works
 switch (tWidth, tHeight) {
     case 48, 21:
         var grid = new contrib.grid({rows: 9, cols: 12, screen: screen});
         drawMap(12, 6, 0, 0);
-        drawLog(12, 2, 5, 0);
+        drawLog(12, 2, 6, 0);
         break;
     case 160, 63:
         var grid = new contrib.grid({rows: 9, cols: 12, screen: screen});
         drawMap(12, 6, 0, 0);
-        drawLog(12, 2, 5, 0);
+        drawLog(12, 2, 6, 0);
         break;
 
     default:
         var grid = new contrib.grid({rows: 12, cols: 12, screen: screen});
-        drawMap(12, 6, 0, 0);
-        drawLog(12, 2, 5, 0);
+        drawMap(12, 5, 0, 0);
+        drawLog(12, 1, 5, 0);
         break;
 }
 
@@ -140,7 +143,7 @@ switch (tWidth, tHeight) {
     }
 
     drawMap();
-    drawLog();
+    //drawLog();
   });
 
 readLastLines.read('/var/log/apache2/access.log', 25).then((lines) => oldLogs(lines));
@@ -153,7 +156,11 @@ setInterval(() => {
         time = 0;
     }
     readLastLines.read('/var/log/apache2/access.log', 1).then((lines) => getlog(lines));
-    log.log(String(newLog));    
+    if (newLog != newLog2 ) {
+        newLog2 = newLog;
+        log.log(String(newLog)); 
+    }
+       
     for (let i = 0; i < ipGroup.length; i++) {
         try {
             geo = geoip.lookup(ipGroup[i]).ll;
@@ -185,6 +192,27 @@ setInterval(() => {
     //     }
         
     // })
+
+    // get cpu temp
+    exec('sensors', (err, stdout, stderr) => { // istats for mac | sensors for ubuntu
+        if (err) {
+            console.log(err)
+            return;
+        }
+        temp = stdout.split("\n");
+        //console.log(temp[1]);
+        for (let i = 0; i < temp.length; i++) {
+           if (temp[i].length <= 0) {
+               temp.splice(i, 1);
+           }
+           console.log(temp[2]);
+           console.log(temp[3]);
+           console.log(temp[4]);
+           console.log(temp[5]);
+        }
+        
+        //console.log(`stderr: ${stderr}`);
+    });
     
 
     screen.render();

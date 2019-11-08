@@ -23,14 +23,13 @@ si.currentLoad(function(data) {
 setInterval(() => {
 
     exec('sensors', (err, stdout, stderr) => {
-    if (err) {
-        console.log(err)
-        return;
-    }
-
-    // the *entire* stdout and stderr (buffered)
-    console.log(stdout);
-    //console.log(`stderr: ${stderr}`);
+        if (err) {
+            console.log(err)
+            return;
+        }
+        
+        console.log(stdout);
+        //console.log(`stderr: ${stderr}`);
     });
    
 
