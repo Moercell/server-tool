@@ -104,15 +104,15 @@ switch (tWidth, tHeight) {
         drawLog(12, 1, 5, 0);
         var line = grid.set(6, 0, 3, 6, contrib.line,
             { 
-            xLabelPadding: 1
-            , xPadding: 0
+            xLabelPadding: 0
+            , xPadding: -5
             , showLegend: false
             , wholeNumbersOnly: false //true=do not show fraction in y axis
             , label: 'cpu temp'});
         var line2 = grid.set(6, 6, 3, 6, contrib.line,
             { 
-            xLabelPadding: 1
-            , xPadding: 0
+            xLabelPadding: 0
+            , xPadding: -5
             , showLegend: false
             , wholeNumbersOnly: false //true=do not show fraction in y axis
             , label: 'cpu speed'});
