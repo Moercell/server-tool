@@ -97,7 +97,7 @@ si.currentLoad(function(data) {
         })
         //console.log(data.cpus[i].load)
   }
-    
+    console.log(loadData);
 })
 
 
