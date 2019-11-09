@@ -271,8 +271,8 @@ setInterval(() => {
         for (let i = 0; i < data.cpus.length; i++) {
 
             //let dataLoad = parsInt(data.cpus[i].load);
-            loadData[i].y.shift();
-            loadData[i].y.push(dataLoad);
+            //loadData[i].y.shift();
+            //loadData[i].y.push(dataLoad);
         }
         
     })
