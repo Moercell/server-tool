@@ -5,7 +5,6 @@ const geoip = require('geoip-lite');
 const si = require('systeminformation');
 const exec = require('child_process').exec;
 
-
 const screen = blessed.screen({
     smartCSR: true
   });
@@ -30,7 +29,6 @@ var sLon = 0;
 var eLat = 180;
 var eLon = 360;
 
-
 function getlog(log) {
     if (log !== newLog) {
         newLog = log;
@@ -42,7 +40,6 @@ function getlog(log) {
     }
 }
 
-
 function oldLogs(log) {
     oldLog = log.split("\n"); 
     for (let i = 0; i < oldLog.length; i++) {
@@ -50,7 +47,6 @@ function oldLogs(log) {
         
     }
 }
-
 
 function drawMap(w, h, y, x) {
     if (w === undefined) {
@@ -95,10 +91,8 @@ si.currentLoad(function(data) {
             y: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
             style: { line: colors[i]}
         })
-        //console.log(data.cpus[i].load)
   }
 })
-
 
 // check for screen
 // TODO: make responsive works
@@ -141,7 +135,7 @@ switch (tWidth, tHeight) {
 
 
   // get keypress
-  screen.on('keypress', function(key) {
+screen.on('keypress', function(key) {
     switch (key) {
         case 'q':
             process.exit();
@@ -188,7 +182,6 @@ switch (tWidth, tHeight) {
         default:
             break;
     }
-
     drawMap();
     //drawLog();
   });
@@ -197,11 +190,13 @@ readLastLines.read('/var/log/apache2/access.log', 25).then((lines) => oldLogs(li
 
 function isOdd(num) { return num % 2;}
 let time = 0;
+
 setInterval(() => {
     time ++;
     if (time > 10) {
         time = 0;
     }
+
     readLastLines.read('/var/log/apache2/access.log', 1).then((lines) => getlog(lines));
     if (newLog != newLog2 ) {
         newLog2 = newLog;
@@ -256,12 +251,9 @@ setInterval(() => {
                tempLog.push(temp4);
                cpuData[1].y.shift();
                cpuData[1].y.push(temp4);
-               
            }
-          
         }
         var box = grid.set(8, 0, 1, 6, blessed.text, {content: 'cpu0: ' + tempLog[0] + '°C | cpu1: ' + tempLog[1] + '°C', align: 'center'})
-
     });
 
     // get cpu load
@@ -271,9 +263,8 @@ setInterval(() => {
             loadData[i].y.shift();
             loadData[i].y.push(dataLoad);
         }
-        
+        //var box = grid.set(8, 0, 1, 6, blessed.text, {content: 'cpu0: ' + tempLog[0] + '°C | cpu1: ' + tempLog[1] + '°C', align: 'center'})
     })
-
 
     line.setData(cpuData);
     line2.setData(loadData);
