@@ -266,8 +266,11 @@ setInterval(() => {
 
     // get cpu load
     si.currentLoad(function(data) {
+        console.log(data.cpus[1].load);
+        console.log(typeof(data.cpus[1].load));
         for (let i = 0; i < data.cpus.length; i++) {
-            let dataLoad = parsInt(data.cpus[i].load);
+
+            //let dataLoad = parsInt(data.cpus[i].load);
             loadData[i].y.shift();
             loadData[i].y.push(dataLoad);
         }
