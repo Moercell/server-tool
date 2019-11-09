@@ -93,7 +93,7 @@ si.currentLoad(function(data) {
             lable: 'cpu' + i, 
             x: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
             y: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-            style: { line: color[i]}
+            style: { line: colors[i]}
         })
         //console.log(data.cpus[i].load)
   }
