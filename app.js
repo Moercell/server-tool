@@ -97,7 +97,6 @@ si.currentLoad(function(data) {
         })
         //console.log(data.cpus[i].load)
   }
-    console.log(loadData);
 })
 
 
@@ -267,6 +266,7 @@ setInterval(() => {
 
     // get cpu load
     si.currentLoad(function(data) {
+        console.log(data.cpus);
         for (let i = 0; i < data.cpus.length; i++) {
             loadData[i].y.shift();
             loadData[i].y.push(data.cpus[i]);
