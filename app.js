@@ -23,7 +23,7 @@ var oldIps = [];
 var map;
 var log;
 var temp;
-var colors = ['red', 'green', 'blue', 'cyan', 'magenta', 'yellow'];
+var colors = ['red', 'green', 'blue', 'cyan', 'magenta', 'yellow', 'red', 'green', 'blue', 'cyan', 'magenta', 'yellow', 'red', 'green', 'blue', 'cyan', 'magenta', 'yellow', 'red', 'green', 'blue', 'cyan', 'magenta', 'yellow', 'red', 'green', 'blue', 'cyan', 'magenta', 'yellow'];
 
 var sLat = 0;
 var sLon = 0;
@@ -84,21 +84,22 @@ var cpuData = [
     }
 ];
 
-var loadData = [
-    {
-        title: 'core00',
-        x: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-        y: [100, 100, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-        style: { line: colors[0] }
-    },
-    {
-        title: 'core01',
-        x: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-        y: [100, 100, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-        style: { line: colors[0] }
-    }
+var loadData = [];
+
+// setup cpu array
+si.currentLoad(function(data) {
+    for (let i = 0; i < data.cpus.length; i++) {
+        loadData.push({
+            lable: 'cpu' + i, 
+            x: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            y: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            style: { line: color[i]}
+        })
+        //console.log(data.cpus[i].load)
+  }
     
-]
+})
+
 
 // check for screen
 // TODO: make responsive works
@@ -233,13 +234,6 @@ setInterval(() => {
         map.clearMarkers(); // make map marker blink
     }
 
-    // si.currentLoad(function(data) {
-    //     for (let i = 0; i < data.cpus.length; i++) {
-    //         //console.log(data.cpus[i].load)
-    //   }
-        
-    // })
-
     // get cpu temp
     exec('sensors', (err, stdout, stderr) => { // istats for mac | sensors for ubuntu
         if (err) {
@@ -270,6 +264,17 @@ setInterval(() => {
         var box = grid.set(8, 0, 1, 6, blessed.text, {content: 'cpu0: ' + tempLog[0] + '°C | cpu1: ' + tempLog[1] + '°C', align: 'center'})
 
     });
+
+    // get cpu load
+    si.currentLoad(function(data) {
+        for (let i = 0; i < data.cpus.length; i++) {
+            loadData[i].y.shift();
+            loadData[i].y.push(data.cpus[i]);
+        }
+        
+    })
+
+
     line.setData(cpuData);
     line2.setData(loadData);
     screen.render();
