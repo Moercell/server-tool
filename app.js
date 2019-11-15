@@ -219,7 +219,7 @@ setInterval(() => {
             map.addMarker({"lon" : String(geo[1]), "lat" : String(geo[0]), color: "red", char: String(amount) });
         }
         else{
-            map.addMarker({"lon" : String(geo[1]), "lat" : String(geo[0]), color: "blue", char: String(amount) });
+            //map.addMarker({"lon" : String(geo[1]), "lat" : String(geo[0]), color: "blue", char: String(amount) });
         }
     }
 
