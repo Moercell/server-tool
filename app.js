@@ -100,7 +100,7 @@ switch (tWidth, tHeight) {
     case 48, 21:
         var grid = new contrib.grid({rows: 9, cols: 12, screen: screen});
         drawMap(12, 6, 0, 0);
-        drawLog(12, 2, 6, 0);
+        drawLog(12, 3, 7, 0);
         break;
     case 160, 63:
         var grid = new contrib.grid({rows: 9, cols: 12, screen: screen});
