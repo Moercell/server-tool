@@ -50,12 +50,7 @@ function oldLogs(log) {
 
 function drawMap(w, h, y, x) {
     if (w === undefined) {
-        if (tWidth == 48) {
-            map = grid.set(0, 0, 6, 12, contrib.map, {label: 'access log | apache', startLon: sLon, startLat: sLat, endLat: eLat, endLon: eLon});
-
-        } else {
-            map = grid.set(0, 0, 5, 12, contrib.map, {label: 'access log | apache', startLon: sLon, startLat: sLat, endLat: eLat, endLon: eLon});
-        }
+        map = grid.set(0, 0, 5, 12, contrib.map, {label: 'access log | apache', startLon: sLon, startLat: sLat, endLat: eLat, endLon: eLon});
     } else {
         map = grid.set(y, x, h, w, contrib.map, {label: 'access log | apache', startLon: sLon, startLat: sLat, endLat: eLat, endLon: eLon});
     }
@@ -106,49 +101,12 @@ switch (tWidth, tHeight) {
         var grid = new contrib.grid({rows: 9, cols: 12, screen: screen});
         drawMap(12, 6, 0, 0);
         drawLog(12, 3, 7, 0);
-        var line = grid.set(9, 0, 2, 6, contrib.line,
-            { 
-            xLabelPadding: 0
-            , xPadding: -5
-            , showLegend: false
-            , numYLabels: 5
-            , maxY: 100
-            , wholeNumbersOnly: false //true=do not show fraction in y axis
-            , label: 'cpu temp'});
-        var line2 = grid.set(9, 6, 2, 6, contrib.line,
-            { 
-            xLabelPadding: 0
-            , xPadding: -5
-            , showLegend: false
-            , numYLabels: 5
-            , maxY: 100
-            , wholeNumbersOnly: false //true=do not show fraction in y axis
-            , label: 'cpu speed'});
         break;
     case 160, 63:
         var grid = new contrib.grid({rows: 9, cols: 12, screen: screen});
         drawMap(12, 6, 0, 0);
         drawLog(12, 2, 6, 0);
-        var line = grid.set(6, 0, 3, 6, contrib.line,
-            { 
-            xLabelPadding: 0
-            , xPadding: -5
-            , showLegend: false
-            , numYLabels: 5
-            , maxY: 100
-            , wholeNumbersOnly: false //true=do not show fraction in y axis
-            , label: 'cpu temp'});
-        var line2 = grid.set(6, 6, 3, 6, contrib.line,
-            { 
-            xLabelPadding: 0
-            , xPadding: -5
-            , showLegend: false
-            , numYLabels: 5
-            , maxY: 100
-            , wholeNumbersOnly: false //true=do not show fraction in y axis
-            , label: 'cpu speed'});
         break;
-
     default:
         var grid = new contrib.grid({rows: 12, cols: 12, screen: screen});
         drawMap(12, 5, 0, 0);
